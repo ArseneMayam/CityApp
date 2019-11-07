@@ -17,11 +17,11 @@ namespace CityInfo.API
 {
     public class Startup
     {
-        public static IConfigurationRoot configuraton; // used to get data in appsettings.json
+        public static IConfiguration Configuration { get; private set; } // used to get data in appsettings.json
 
-        public Startup(IHostingEnvironment env)
+        public Startup(IConfiguration config)
         {
-            var builder = new ConfigurationBuilder();
+            Configuration = config;
         }
         // This method gets called by the runtime. Use this method to add services to the container.
         // For more information on how to configure your application, visit https://go.microsoft.com/fwlink/?LinkID=398940
