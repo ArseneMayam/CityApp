@@ -13,10 +13,12 @@ namespace CityInfo.API.Controllers
     {
         private ILogger<PointsOfInterestController> _logger;
         private IMailService _mailService;
-        public PointsOfInterestController(ILogger<PointsOfInterestController> logger, IMailService mailService)
+        private ICityInfoRepository cityInfoRepository;
+        public PointsOfInterestController(ILogger<PointsOfInterestController> logger, IMailService mailService, ICityInfoRepository cityInfoRepository)
         {
             _logger = logger;
             _mailService = mailService;
+            this.cityInfoRepository = cityInfoRepository;
         }
 
         [HttpGet("{cityId}/pointsofinterest")]
@@ -24,14 +26,15 @@ namespace CityInfo.API.Controllers
         {
             try
             {
-                //throw new Exception("Exception sample.");
-                var city = CitiesDataStore.Current.Cities.FirstOrDefault(c => c.Id == cityId);
-                if (city == null)
+                if (!cityInfoRepository.CityExists(cityId))
                 {
                     _logger.LogInformation($"City with id {cityId} wasn't found when accessing points of interest.");
                     return NotFound();
                 }
-                return Ok(city.PointsOfInterests);
+
+                var pointsOfInterestForCity = cityInfoRepository.GEtPointsOfInterestForCity(cityId);
+
+                return Ok(pointsOfInterestForCity);
             }
             catch(Exception e)
             {
