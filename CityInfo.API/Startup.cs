@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using CityInfo.API.Entities;
+﻿using CityInfo.API.Entities;
 using CityInfo.API.Services;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -12,8 +8,6 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
-using Newtonsoft.Json.Serialization;
-using NLog.Extensions.Logging;
 
 namespace CityInfo.API
 {
@@ -68,6 +62,9 @@ namespace CityInfo.API
             {
                 app.UseDeveloperExceptionPage();
             }
+
+            //cityInfoContext.EnsureSeedDataForContext(); // populate db with sample data
+
             app.UseStatusCodePages();
 
             // use MVC Middleware

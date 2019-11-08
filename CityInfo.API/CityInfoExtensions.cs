@@ -55,6 +55,8 @@ namespace CityInfo.API
                     }
                 }
             };
+            context.Cities.AddRange(cities);
+            context.SaveChanges();
         }
     }
 }
