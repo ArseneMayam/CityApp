@@ -1,4 +1,5 @@
-﻿using CityInfo.API.Models;
+﻿using CityInfo.API.Entities;
+using CityInfo.API.Services;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
@@ -8,21 +9,31 @@ namespace CityInfo.API.Controllers
     [Route("api/cities")]
     public class CitiesController : Controller
     {
+        private ICityInfoRepository cityInfoRepository;
+
+         CitiesController(ICityInfoRepository cityInfoRepository)
+        {
+            this.cityInfoRepository = cityInfoRepository;
+        }
         [HttpGet()]
         public IActionResult GetCities()
         {
-            return Ok(CitiesDataStore.Current.Cities);
-        }
-        [HttpGet("{id}")]
-        public IActionResult GetCity(int id)
-        {
-            var city = CitiesDataStore.Current.Cities.Find(c => c.Id == id);
-            if(city == null)
+            var cities = cityInfoRepository.GetCities();
+            if(cities == null)
             {
-                Console.WriteLine("In not found");
                 return NotFound();
             }
-            return Ok(city);
+            return Ok(cities);
+        }
+        [HttpGet("{id}")]
+        public IActionResult GetCity(int id, bool includePointsOfInterest = false)
+        {
+            var city = cityInfoRepository.GetCity(id,includePointsOfInterest);
+            if(city == null)
+            {
+                return NotFound();
+            }
+            return null;
         }
     }
 }
