@@ -48,12 +48,11 @@ namespace CityInfo.API.Controllers
         [HttpGet("{cityId}/pointsofinterest/{id}", Name = "GetPointOfInterest")]
         public IActionResult GetPointOfInterest(int cityId, int id)
         {
-            var city = CitiesDataStore.Current.Cities.FirstOrDefault(c => c.Id == cityId);
-            if(city == null)
+            if (!cityInfoRepository.CityExists(cityId))
             {
                 return NotFound();
             }
-            var pointOfInterest = city.PointsOfInterests.FirstOrDefault(p => p.Id == id);
+            var pointOfInterest = cityInfoRepository.GetPointOfInterestForCity(cityId,id);
             if(pointOfInterest == null)
             {
                 return NotFound();

@@ -33,7 +33,7 @@ namespace CityInfo.API.Controllers
             {
                 return NotFound();
             }
-            return null;
+            return Ok(city);
         }
     }
 }

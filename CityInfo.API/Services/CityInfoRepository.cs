@@ -41,7 +41,7 @@ namespace CityInfo.API.Services
               
         }
 
-        public IEnumerable<PointOfInterest> GEtPointsOfInterestForCity(int cityId)
+        public IEnumerable<PointOfInterest> GetPointsOfInterestForCity(int cityId)
         {
             return ctx.PointsOfInterest.Include(p => p.CityId == cityId).ToList();
         }
